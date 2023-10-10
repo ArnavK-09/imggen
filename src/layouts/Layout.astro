@@ -1,0 +1,169 @@
+---
+// prompt
+interface Props {
+	title: string;
+}
+const { title } = Astro.props;
+
+// components
+import Navbar from "../components/Navbar.astro";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} - Profile Pic Creator</title>
+	</head>
+	<body class="bg-[#1e1a2b] text-white">
+		<header class="mb-5">
+			<Navbar />
+		</header>
+		<main class="overflow-x-hidden break-words">
+			<slot />
+		</main>
+		<section
+			hidden
+			id="spinner"
+			class="fl hidden gap-2 justify-center items-center z-40 p-auto h-screen w-screen bg-black/80 fixed left-0 top-0"
+		>
+			<div class="loader"></div>
+			<!-- <div><p class="my-5">Don't Close This Tab</p></div>. -->
+		</section>
+	</body>
+	<script>
+		// imports
+		import confetti from "canvas-confetti";
+		import { isLoading } from "../store.js";
+		/*
+		// Listen to changes in the store, and show/hide the dialog accordingly
+		isLoading.subscribe((open) => {
+			console.log(open, "232");
+			if (open) {
+				document.getElementById("spinner").style.display = "block";
+			} else {
+				document.getElementById("spinner").style.display = "none";
+			}
+		});*/
+
+		// Find our component DOM on the page.
+		const buttons = document.querySelectorAll("[data-confetti-button]");
+
+		// stars btn
+		function strs_button() {
+			var defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+		// Add event listeners to fire confetti when a button is clicked.
+		buttons.forEach((button) => {
+			button.addEventListener("click", () => strs_button());
+		});
+
+		// main
+		function main(e) {
+			// hold
+			isLoading.set(true);
+			e.preventDefault();
+			// loading
+		}
+		document
+			.getElementById("gen_form")
+			.addEventListener("click", () => main());
+	</script>
+</html>
+<style is:global>
+	/* font  */
+	@import url("https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap");
+
+	/* whole web page  */
+	html,
+	body {
+		font-family: "Dela Gothic One", cursive;
+	}
+
+	/* select no arrow  */
+	select {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		text-indent: 1px;
+		text-overflow: "";
+	}
+
+	/* loading spinner css */
+	.loader {
+		width: 4rem;
+		height: 4rem;
+		display: inline-block;
+		position: relative;
+		background-color: #fff;
+		background: radial-gradient(
+			ellipse at center,
+			#0051ff 0%,
+			#003cff 14%,
+			#fff 15%,
+			#fff 100%
+		);
+		background-size: cover;
+		background-position: center;
+		border-radius: 50%;
+	}
+	.loader::after,
+	.loader::before {
+		content: "";
+		position: absolute;
+		height: 16px;
+		width: 4px;
+		background: #0066ff;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) rotate(0deg);
+		transform-origin: 25% 0;
+		box-sizing: border-box;
+		animation: rotation 10s linear infinite;
+	}
+	.loader::before {
+		height: 22px;
+		width: 2px;
+		transform: translateX(-50%) rotate(0deg);
+		animation-duration: 1s;
+	}
+	@keyframes rotation {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+</style>

@@ -1,0 +1,43 @@
+---
+const navLinks: Array<{ label: string; url: string }> = [
+    {
+        label: "Your Creations",
+        url: "/me",
+    },
+    {
+        label: "Create Your Logo",
+        url: "/",
+    },
+    {
+        label: "Github",
+        url: "/github",
+    },
+];
+---
+
+<nav
+    class="absolute w-full top-0 h-18 md:h-20 px-10 py-8 bg-[#232232] shadow-md"
+>
+    <section class="flex justify-between">
+        <div>
+            <span class="text-3xl text-center">Profile Gen</span>
+        </div>
+        <div class="hidden md:block">
+            <ul class="flex gap-5">
+                {
+                    navLinks.map((link) => (
+                        <li>
+                            <a
+                                class="underline underline-offset-8 text-white/90 transition-all text-md ease-in-out hover:underline-offset-4 hover:text-white border-none outline-none"
+                                href={link.url}
+                                aria-label={link.label.toLowerCase()}
+                            >
+                                {link.label}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </section>
+</nav>

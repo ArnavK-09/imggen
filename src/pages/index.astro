@@ -1,0 +1,96 @@
+---
+// imports
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import { genImage } from "../store.js";
+
+let img: any = {};
+genImage.subscribe((z) => {
+	img = z;
+});
+---
+
+<Layout title="Create Your Profile Picture">
+	<section id="app" class="w-full my-20 p-5">
+		<section class="w-full mt-3">
+			<h2 class="text-2xl">Create Your Custom Profile Pic</h2>
+			<div class="grid lg:grid-cols-2 gap-8 px-5">
+				<section
+					class="grid grid-rows-2 gap-3 bg-[#232232] rounded-2xl shadow-lg my-5 mx-2 w-full md:p-10 p-4"
+				>
+					<div>
+						<h5 class="text-sm mb-3 text-white/80">
+							<span class="text-[#2276f3] px-2">Step 1:-</span>
+							 Enter Your Well Defined Prompt!
+						</h5>
+						<textarea
+							class="rounded-2xl h-[80%] placeholder:text-white/80 font-thin text-sm p-2 bg-[#2c2a3f] border-2 border-[#1e1a2b] w-full outline-none"
+							name="prompt"
+							rows="5"
+							id="input"
+							placeholder="Enter Your Prompt..."></textarea>
+					</div>
+					<div class="grid grid-rows-2 gap-3">
+						<form id="gen_form">
+							<div>
+								<h5 class="text-sm mb-3 text-white/80">
+									<span class="text-[#2276f3] px-2"
+										>Step 2:-</span
+									>Choose Your Model For The Best!
+								</h5>
+
+								<label for="model" class="sr-only"
+									>Select Model</label
+								>
+								<select
+									id="model"
+									class="block w-full text-md text-white/90 bg-[#2c2a3f] py-3.5 px-2 rounded-2xl border-0 border-b-2 border-[#1e1a2b] appearance-non focus:outline-none peer"
+								>
+									<option value="sdxl">SDXL</option>
+									<option value="dalle">DALL-E</option>
+									<option value="stable2"
+										>Stable Diffusion V2.1</option
+									>
+									<option value="stable1"
+										>Stable Diffusion V1.5</option
+									>
+									<option value="mid">Mid Journey</option>
+								</select>
+							</div>
+							<div>
+								<h5 class="text-sm mb-3 text-white/80">
+									<span class="text-[#2276f3] px-2"
+										>Step 3:-</span
+									>Launch The Model
+								</h5>
+								<button
+									id="gen_img"
+									data-confetti-button
+									class="w-full py-4 hover:scale-105 transition-all ease-in-out rounded-full text-white
+							bg-gradient-to-r from-[#5489ee] via-[#2874f5] to-[#1759c1] hover:via-[#5489ee] hover:from-[#2874f5] hover:to-[#1759c1]"
+								>
+									Create Your Profile Pic
+								</button>
+							</div>
+						</form>
+					</div>
+				</section>
+				<section class="w-full">
+					<div class="bg-[#232232] p-2 rounded-2xl h-full">
+						<h5 class="my-2 mx-2">Your Profile Pic Here...</h5>
+						<div class="flex justify-center">
+							<Image
+								src={img.url}
+								alt={img.cap}
+								width={2}
+								height={2}
+								quality="max"
+								class="h-[90%] w-[90%] my-5 rounded-lg shadow-lg"
+							/>
+						</div>
+					</div>
+				</section>
+			</div>
+		</section>
+	</section>
+</Layout>
