@@ -5,5 +5,8 @@ import solidJs from "@astrojs/solid-js";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), solidJs()]
+  integrations: [tailwind(), solidJs()],
+  site: "https://arnavk-09.github.io",
+  base: "imggen",
+  output: "static"
 });
